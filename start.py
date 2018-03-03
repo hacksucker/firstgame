@@ -5,12 +5,13 @@ class App:
     def __init__(self):
         self._running = True
         self._display_surf = None
-        self.size = self.weight, self.height = 640, 400
+        self.size = self.weight, self.height = 732, 732
  
     def on_init(self):
         pygame.init()
         self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
+        self._image_surf = pygame.image.load("map.jpg").convert()
  
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -18,7 +19,8 @@ class App:
     def on_loop(self):
         pass
     def on_render(self):
-        pass
+        self._display_surf.blit(self._image_surf,(0,0))
+        pygame.display.flip()
     def on_cleanup(self):
         pygame.quit()
  
