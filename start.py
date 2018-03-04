@@ -5,7 +5,7 @@ class Champion(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self._health = 100
         self._damage = 10
-        self._level = 1
+        self._level = 1 
 class Fin(Champion):
     def __init__(self):
         Champion.__init__(self)
