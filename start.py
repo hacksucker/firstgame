@@ -1,16 +1,37 @@
-import pygame
+import pygame 
 from pygame.locals import *
+
 class Champion(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self._health = 100
-        self._damage = 10
+        self._damage = 1
         self._level = 1 
 class Fin(Champion):
     def __init__(self):
         Champion.__init__(self)
-class Tower:
+        self.sprite_sheet = pygame.image.load("sprite/healer_m.png").convert()
+        self.image = pygame.Surface([32, 35]).convert()
+        self.image.blit(self.sprite_sheet, (0, 0), (0, 0, 32, 35))
+        self.image.set_colorkey(( 255, 255, 255))
+        self.rect = self.image.get_rect()
+        self.rect.x = 100
+        self.rect.y = 100
+
+class Maurice(Champion):
+    def __init__(self):
+        Champion.__init__(self)
+        self.sprite_sheet = pygame.image.load("sprite/warrior_m.png").convert()
+        self.image = pygame.Surface([32, 35]).convert()
+        self.image.blit(self.sprite_sheet, (0, 0), (0, 0, 32, 35))
+        self.image.set_colorkey(( 255, 255, 255))
+        self.rect = self.image.get_rect()
+        self.rect.x = 50
+        self.rect.y = 50
+
+class Tower(pygame.sprite.Sprite):
     def __init__(self,xpos,ypos):
+        pygame.sprite.Sprite.__init__(self)
         self._xpos = xpos
         self._ypos = ypos
 class Map:
@@ -33,12 +54,15 @@ class App:
         self._running = True
         self._oDisplay = None
         self._oMap = SummonersRift()
+        self.all_sprites_list = pygame.sprite.Group()
         self.size = self.weight, self.height = 732, 732
     def on_init(self):
         pygame.init()
         self._oDisplay = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
         self._oMap.on_init()
+        self.all_sprites_list.add(Fin())
+        self.all_sprites_list.add(Maurice())
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
@@ -46,6 +70,7 @@ class App:
         pass
     def on_render(self):
         self._oMap.on_render(self._oDisplay)
+        self.all_sprites_list.draw(self._oDisplay)
         pygame.display.flip()
     def on_cleanup(self):
         pygame.quit()
